@@ -2,7 +2,6 @@
 
 namespace Konnco\ImageCast\Tests\src\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Konnco\ImageCast\Casts\Image;
 

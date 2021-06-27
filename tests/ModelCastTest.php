@@ -2,8 +2,8 @@
 
 namespace Konnco\ImageCast\Tests;
 
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Konnco\ImageCast\Tests\src\Models\User;
 
 class ModelCastTest extends TestCase

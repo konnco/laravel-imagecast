@@ -2,7 +2,6 @@
 
 namespace Konnco\ImageCast;
 
-use Konnco\ImageCast\Commands\ImageCastCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
