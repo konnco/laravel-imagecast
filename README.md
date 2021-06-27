@@ -7,6 +7,9 @@
 
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
+## Atention!
+this package is still under beta testing, do don't use it in your production.
+
 ## Installation
 
 You can install the package via composer:
@@ -59,15 +62,30 @@ $user = New User();
 $user->name = $request->name;
 $user->avatar = $request->photo;
 $user->save();
-
-$user->refresh(); // to get compiled parameters
 ```
 
-The response you get after saving the image
+## Custom Size Image
+In here we have added custom sized image which you can modify through the url,
+
+first you have to modify file `App\Exceptions\Handler` and add this code inside `render` method.
+
 ```php
-// path location
-$user->avatar->path
+use Konnco\ImageCast\ImageCastExceptionHandler;
+
+public function render($request, Throwable $exception) {
+    return new ImageCastExceptionHandler($exception, request()->url(), function(){
+        return parent::render($request, $exception);
+    });
+}
 ```
+
+after that try to embed this script inside your blade;
+```html
+<img src="{{$user->avatar->filters(['w_100','h_100'])}}" alt="Image"/>
+```
+
+the `w_100` means we need to resize this image into 100px and `h_100` to set height as 100%.
+
 
 ## Testing
 

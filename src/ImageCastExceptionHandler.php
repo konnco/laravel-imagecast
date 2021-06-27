@@ -14,15 +14,23 @@ class ImageCastExceptionHandler
             if (Str::contains($url, config('imagecast.cache.identifier'))) {
                 // remove site url with the identifiers
                 $url = str_replace(config('app.url')."/".config('imagecast.cache.identifier')."/", "", $url);
-                $fileName = $this->extractFileName($url);
-                $fingerprint = $this->extractFingerprint($fileName);
-                // $filters = $this->extractFilters($url);
-                dd(($fingerprint['class'])::where($fingerprint['field'],'like',"%$fileName%")->get());
-                dd($model);
-        //         $fingerprint = $fileName.".fingerprint";
-        //         dd($fingerprint);
+                $fullPath = $this->extractFileName($url);
+                $fingerprint = $this->extractFingerprint($fullPath);
+                $filters = $this->extractFilters($url);
+                // dd(($fingerprint['class'])::get());
+                // dd($fileName);
+                $eloquent = ($fingerprint['class'])::where($fingerprint['field'],'like',"%".basename($fullPath)."%")->first();
+                if($eloquent) {
+                    // dd($fingerprint['field']);
+                    $field = $fingerprint['field'];
+                    $eloquent->$field->temporaryResize($filters);
+                }
+
+                return redirect($url);
             }
         }
+
+        return $callback();
     }
 
     private function extractFilters($url){

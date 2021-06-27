@@ -35,9 +35,11 @@ class ModelCastTest extends TestCase
 
         $user->refresh();
 
-        $url = config('app.url')."/".config('imagecast.cache.identifier')."/w_100,h_100/".$user->avatar->path;
+        $url = config('imagecast.cache.identifier')."/h_100,w_100/".$user->avatar->path;
 
-        $exceptional = new ImageCastExceptionHandler(new NotFoundHttpException(), $url, function(){});
+        $exceptional = new ImageCastExceptionHandler(new NotFoundHttpException(), config('app.url')."/".$url, function(){});
+
+        Storage::disk('public')->assertExists($url);
 
 
 
