@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Konnco\ImageCast\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class ImageCastCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-imagecast';
 
     public $description = 'My command';
 
