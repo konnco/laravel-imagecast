@@ -11,10 +11,6 @@ class TestCase extends Orchestra
     public function setUp(): void
     {
         parent::setUp();
-
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Konnco\\ImageCast\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
     }
 
     protected function getPackageProviders($app)
@@ -28,9 +24,7 @@ class TestCase extends Orchestra
     {
         config()->set('database.default', 'testing');
 
-        /*
-        include_once __DIR__.'/../database/migrations/create_laravel-imagecast_table.php.stub';
-        (new \CreatePackageTable())->up();
-        */
+        include_once __DIR__.'/../database/migrations/create_imagecast_table.php.stub';
+        (new \CreateImageCast())->up();
     }
 }

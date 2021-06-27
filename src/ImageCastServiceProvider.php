@@ -17,9 +17,6 @@ class ImageCastServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-imagecast')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel-imagecast_table')
-            ->hasCommand(ImageCastCommand::class);
+            ->hasConfigFile();
     }
 }
