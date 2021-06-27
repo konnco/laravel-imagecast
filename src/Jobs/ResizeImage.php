@@ -10,7 +10,10 @@ use Illuminate\Queue\SerializesModels;
 
 class ResizeImage implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $model;
 
@@ -21,7 +24,6 @@ class ResizeImage implements ShouldQueue
      */
     public function __construct()
     {
-
     }
 
     /**

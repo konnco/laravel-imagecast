@@ -2,13 +2,13 @@
 
 namespace Konnco\ImageCast;
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ImageCastExceptionHandler
 {
-    public function __construct($exception, $url , $callback)
+    public function __construct($exception, $url, $callback)
     {
         if ($exception instanceof NotFoundHttpException) {
             if (Str::contains($url, config('imagecast.cache.identifier'))) {
@@ -19,8 +19,8 @@ class ImageCastExceptionHandler
                 $filters = $this->extractFilters($url);
                 // dd(($fingerprint['class'])::get());
                 // dd($fileName);
-                $eloquent = ($fingerprint['class'])::where($fingerprint['field'],'like',"%".basename($fullPath)."%")->first();
-                if($eloquent) {
+                $eloquent = ($fingerprint['class'])::where($fingerprint['field'], 'like', "%".basename($fullPath)."%")->first();
+                if ($eloquent) {
                     // dd($fingerprint['field']);
                     $field = $fingerprint['field'];
                     $eloquent->$field->temporaryResize($filters);
@@ -33,22 +33,26 @@ class ImageCastExceptionHandler
         return $callback();
     }
 
-    private function extractFilters($url){
+    private function extractFilters($url)
+    {
         $urlArray = explode('/', $url);
         $filters = explode(',', $urlArray[0]);
 
         return $filters;
     }
 
-    private function extractFileName($url){
+    private function extractFileName($url)
+    {
         $urlArray = explode('/', $url);
         array_shift($urlArray);
 
         return implode("/", $urlArray);
     }
 
-    private function extractFingerprint($url){
+    private function extractFingerprint($url)
+    {
         $fingerprint = Storage::disk(config('imagecast.disk'))->get($url.".fingerprint");
+
         return json_decode($fingerprint, true);
     }
 }

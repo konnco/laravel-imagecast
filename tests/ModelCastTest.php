@@ -3,10 +3,10 @@
 namespace Konnco\ImageCast\Tests;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use Konnco\ImageCast\Tests\src\Models\User;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Konnco\ImageCast\ImageCastExceptionHandler;
+use Konnco\ImageCast\Tests\src\Models\User;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ModelCastTest extends TestCase
@@ -26,7 +26,8 @@ class ModelCastTest extends TestCase
     }
 
     /** @test */
-    public function check_imagecast_exceptional_handler(){
+    public function check_imagecast_exceptional_handler()
+    {
         Storage::fake(config('imagecast.disk'));
 
         $user = new User;
@@ -37,7 +38,8 @@ class ModelCastTest extends TestCase
 
         $url = config('imagecast.cache.identifier')."/h_100,w_100/".$user->avatar->path;
 
-        $exceptional = new ImageCastExceptionHandler(new NotFoundHttpException(), config('app.url')."/".$url, function(){});
+        $exceptional = new ImageCastExceptionHandler(new NotFoundHttpException(), config('app.url')."/".$url, function () {
+        });
 
         Storage::disk('public')->assertExists($url);
 

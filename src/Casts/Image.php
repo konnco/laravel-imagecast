@@ -82,7 +82,7 @@ class Image implements CastsAttributes
         // Add identifier inside folders
         $this->storage->put($image['path'].".fingerprint", json_encode([
             "class" => get_class($model),
-            "field" => $key
+            "field" => $key,
         ]));
 
         $jsonResults = json_encode([
@@ -287,7 +287,8 @@ class Image implements CastsAttributes
         return isset($mime_map[$mime]) ? $mime_map[$mime] : false;
     }
 
-    protected function _prepareSaveData($value){
+    protected function _prepareSaveData($value)
+    {
         $interventionObject = ImageIntervention::make($value);
 
         // Extract files extensions the original doesn't have it
@@ -296,10 +297,10 @@ class Image implements CastsAttributes
         $path = "{$this->path}/$filename";
 
         return [
-            'imageManager'=> $interventionObject,
+            'imageManager' => $interventionObject,
             'extension' => $extension,
             'filename' => $filename,
-            'path' => $path
+            'path' => $path,
         ];
     }
 }
