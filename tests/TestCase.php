@@ -22,6 +22,7 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app)
     {
         config()->set('database.default', 'testing');
+        config()->set('app.url', url(''));
 
         include_once __DIR__.'/../database/migrations/create_imagecast_table.php.stub';
         (new \CreateImageCast())->up();

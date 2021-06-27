@@ -79,6 +79,12 @@ class Image implements CastsAttributes
 
         $this->storage->put($image['path'], $image['imageManager']->encode($image['extension'], $this->quality)->__toString());
 
+        // Add identifier inside folders
+        $this->storage->put($image['path'].".fingerprint", json_encode([
+            "class" => get_class($model)."::class",
+            "field" => $key
+        ]));
+
         $jsonResults = json_encode([
             "path" => $image['path'],
             "disk" => $this->disk,

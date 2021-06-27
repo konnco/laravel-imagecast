@@ -33,5 +33,20 @@ return [
     | you can see how it used in https://github.com/woltapp/blurhash
     |
     */
-    'blurhash' => env('IMAGECAST_BLURHASH', false)
+    'blurhash' => env('IMAGECAST_BLURHASH', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cache Support
+    |--------------------------------------------------------------------------
+    |
+    | This configuration make sure you only load the specific image and resize it
+    |
+    */
+    'cache' => [
+        /**
+         * If the url containes this identifier mean the image should be resized
+         */
+        'identifier' => env('IMAGECAST_CACHE_IDENTIFIER', 'caches/assets')
+    ]
 ];

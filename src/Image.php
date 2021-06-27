@@ -16,4 +16,12 @@ class Image
         $this->path = $array['path'];
         $this->disk = $array['disk'];
     }
+
+    /**
+     * This function will helping to serve the resized image
+     * from requested url
+     */
+    public function temporaryResize($filters = []){
+
+    }
 }
