@@ -17,6 +17,8 @@ class ModelCastTest extends TestCase
         $user->avatar = UploadedFile::fake()->image('photo1.jpg');
         $user->save();
 
-        Storage::disk('photos')->assertExists($user->avatar);
+        $user->refresh();
+
+        Storage::disk('local')->assertExists($user->avatar->path);
     }
 }

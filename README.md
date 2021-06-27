@@ -15,13 +15,6 @@ You can install the package via composer:
 composer require konnco/laravel-imagecast
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --provider="Konnco\ImageCast\ImageCastServiceProvider" --tag="laravel-imagecast-migrations"
-php artisan migrate
-```
-
 You can publish the config file with:
 ```bash
 php artisan vendor:publish --provider="Konnco\ImageCast\ImageCastServiceProvider" --tag="laravel-imagecast-config"
@@ -31,14 +24,35 @@ This is the contents of the published config file:
 
 ```php
 return [
+    "path" => "images",
 ];
 ```
 
 ## Usage
 
+Just casting the `Image` class into image field attribute
+
 ```php
-$laravel-imagecast = new Konnco\ImageCast();
-echo $laravel-imagecast->echoPhrase('Hello, Spatie!');
+protected $casts = [
+    'avatar' => Image::class.":80,images/account/avatar",
+];
+```
+
+and after that you can just upload the image / or attaching the file into the attributes.
+
+```php
+$user = New User();
+$user->name = $request->name;
+$user->avatar = $request->photo;
+$user->save();
+
+$user->refresh(); // to get compiled parameters
+```
+
+The response you get after saving the image
+```php
+// path location
+$user->avatar->path
 ```
 
 ## Testing

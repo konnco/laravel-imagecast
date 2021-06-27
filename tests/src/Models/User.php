@@ -13,6 +13,6 @@ class User extends Model
      * @var array
      */
     protected $casts = [
-        'avatar' => Image::class,
+        'avatar' => Image::class.":80,images/account/avatar",
     ];
 }

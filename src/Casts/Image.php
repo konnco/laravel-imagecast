@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as ImageIntervention;
 
-class Image implements CastsAttributes, CastsInboundAttributes
+class Image implements CastsAttributes
 {
     /**
      * Saving image quality
@@ -73,7 +73,7 @@ class Image implements CastsAttributes, CastsInboundAttributes
         Storage::put($savePath, $image->__toString());
 
         $jsonResults = json_encode([
-            "save_path" => $savePath,
+            "path" => $savePath,
         ]);
 
         return [
