@@ -6,6 +6,7 @@ use Illuminate\Contracts\Database\Eloquent\CastsInboundAttributes;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as ImageIntervention;
+use Konnco\ImageCast\Image as ImageCastImage;
 
 class Image implements CastsAttributes
 {
@@ -31,6 +32,16 @@ class Image implements CastsAttributes
     protected $extension;
 
     /**
+     * Storage disk
+     */
+    protected $disk;
+
+    /**
+     * Filesystem
+     */
+    protected $storage;
+
+    /**
      * Create a new cast class instance.
      *
      * @param  string|null  $algorithm
@@ -41,6 +52,8 @@ class Image implements CastsAttributes
         $this->quality = $quality;
         $this->path = $path ?? config('imagecast.path');
         $this->extension = $extension;
+        $this->disk = config('imagecast.disk');
+        $this->storage = Storage::disk($this->disk);
     }
 
     /**
@@ -53,7 +66,7 @@ class Image implements CastsAttributes
      */
     public function get($model, $key, $value, $attributes)
     {
-        return json_decode($value);
+        return new ImageCastImage($value);
     }
 
     /**
@@ -63,25 +76,21 @@ class Image implements CastsAttributes
      */
     public function set($model, $key, $value, $attributes)
     {
-        // dd($key); // Avatar
-        $image = ImageIntervention::make($value);
+        $image = $this->_prepareSaveData($value);
 
-        $extension = $this->extension ?? $this->mime2ext($image->mime());
-        $filename = Str::random(15).".{$extension}";
-        $savePath = "{$this->path}/$filename";
-
-        Storage::put($savePath, $image->__toString());
+        $this->storage->put($image['path'], $image['imageManager']->encode($image['extension'], $this->quality)->__toString());
 
         $jsonResults = json_encode([
-            "path" => $savePath,
+            "path" => $image['path'],
+            "disk" => $this->disk,
         ]);
 
         return [
-            "avatar" => $jsonResults,
+            $key => $jsonResults,
         ];
     }
 
-    protected function mime2ext($mime)
+    protected function _mime2ext($mime)
     {
         $mime_map = [
             'video/3gpp2' => '3g2',
@@ -271,5 +280,21 @@ class Image implements CastsAttributes
         ];
 
         return isset($mime_map[$mime]) ? $mime_map[$mime] : false;
+    }
+
+    protected function _prepareSaveData($value){
+        $interventionObject = ImageIntervention::make($value);
+
+        // Extract files extensions the original doesn't have it
+        $extension = $this->extension ?? $this->_mime2ext($interventionObject->mime());
+        $filename = Str::random(15).".{$extension}";
+        $path = "{$this->path}/$filename";
+
+        return [
+            'imageManager'=> $interventionObject,
+            'extension' => $extension,
+            'filename' => $filename,
+            'path' => $path
+        ];
     }
 }

@@ -24,7 +24,9 @@ This is the contents of the published config file:
 
 ```php
 return [
-    "path" => "images",
+    'disk' => env('IMAGECAST_DISK', 'public'),
+    'path' => 'images',
+    'blurhash' => env('IMAGECAST_BLURHASH', false)
 ];
 ```
 
@@ -34,7 +36,19 @@ Just casting the `Image` class into image field attribute
 
 ```php
 protected $casts = [
-    'avatar' => Image::class.":80,images/account/avatar",
+    'avatar' => Image::class,
+];
+```
+
+or you can specify quality, save extension and path for each fields with format 
+`:quality,savePath,extension`
+
+as an example :
+
+```php
+protected $casts = [
+    'avatar' => Image::class.":80,images/account/avatar,jpg",
+    'banner' => Image::class.":80,images/account/avatar,png",
 ];
 ```
 

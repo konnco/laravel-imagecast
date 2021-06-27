@@ -11,7 +11,7 @@ class ModelCastTest extends TestCase
     /** @test */
     public function model_can_save_image_image_path()
     {
-        Storage::fake('local');
+        Storage::fake(config('imagecast.disk'));
 
         $user = new User;
         $user->avatar = UploadedFile::fake()->image('photo1.jpg');
@@ -19,6 +19,6 @@ class ModelCastTest extends TestCase
 
         $user->refresh();
 
-        Storage::disk('local')->assertExists($user->avatar->path);
+        Storage::disk(config('imagecast.disk'))->assertExists($user->avatar->path);
     }
 }
