@@ -12,6 +12,8 @@ class Image
     public $path;
     public $disk;
 
+    private $filters = [];
+
     public function __construct($array)
     {
         $array = json_decode($array, true);
@@ -21,10 +23,16 @@ class Image
         $this->disk = $array['disk'];
     }
 
-    public function filters($filters = [])
-    {
-        $filters = collect($filters)->sort();
+    public function width($width = "") {
 
+    }
+
+    public function height($height = "") {
+
+    }
+
+    public function toUrl() {
+        $filters = collect($this->filters)->sort();
         return config('imagecast.cache.identifier')."/".$filters->join(',')."/".$this->path;
     }
 

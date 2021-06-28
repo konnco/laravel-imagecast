@@ -7,8 +7,8 @@
 
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
-## Atention!
-this package is still under beta testing, do don't use it in your production.
+## Alpha Version
+Attention! This package is still under development, we still looking the best pattern we can apply, and in the way, the development may break your application, we would not recommended you using to use this application on production until this package is fully released.
 
 ## Installation
 
@@ -35,7 +35,7 @@ return [
 
 ## Usage
 
-Just casting the `Image` class into image field attribute
+Easy! just apply the `Image` into the image type attribute, example :
 
 ```php
 protected $casts = [
@@ -43,10 +43,7 @@ protected $casts = [
 ];
 ```
 
-or you can specify quality, save extension and path for each fields with format 
-`:quality,savePath,extension`
-
-as an example :
+Also you can applying custom configuration for each field, example :
 
 ```php
 protected $casts = [
@@ -54,8 +51,9 @@ protected $casts = [
     'banner' => Image::class.":80,images/account/avatar,png",
 ];
 ```
+with parameters `:quality,savePath,extension`.
 
-and after that you can just upload the image / or attaching the file into the attributes.
+After defining all of those configuration you can start uploading the image, example :
 
 ```php
 $user = New User();
@@ -64,10 +62,22 @@ $user->avatar = $request->photo;
 $user->save();
 ```
 
-## Custom Size Image
-In here we have added custom sized image which you can modify through the url,
+you can fill the avatar fields with all of these supported type :
+* string - Path of the image in filesystem.
+* string - URL of an image (allow_url_fopen must be enabled).
+* string - Binary image data.
+* string - Data-URL encoded image data.
+* string - Base64 encoded image data.
+* resource - PHP resource of type gd. (when using GD driver)
+* object - Imagick instance (when using Imagick driver)
+* object - Intervention\Image\Image instance
+* object - SplFileInfo instance (To handle Laravel file uploads via Symfony\Component\HttpFoundation\File\UploadedFile)
 
-first you have to modify file `App\Exceptions\Handler` and add this code inside `render` method.
+## Url Generator
+
+With the ImageCast Url Generator you can define the image width and height only with the url, if you already get used with cloudinary, you will thank this package.
+
+We should configure the 404 handler for Laravel. Open `App\Exceptions\Handler` and and the code below inside the `render` method.
 
 ```php
 use Konnco\ImageCast\ImageCastExceptionHandler;
@@ -79,12 +89,13 @@ public function render($request, Throwable $exception) {
 }
 ```
 
-after that try to embed this script inside your blade;
+We already added the helpers inside the `ImageCast` and it can be defined like script below :
 ```html
-<img src="{{$user->avatar->filters(['w_100','h_100'])}}" alt="Image"/>
+<img src="{{$user->avatar->width(100)->height(100)->toUrl()}}" alt="Image"/>
 ```
 
-the `w_100` means we need to resize this image into 100px and `h_100` to set height as 100%.
+## Idea
+We really appreciate your idea and contribution into this package :)
 
 
 ## Testing
