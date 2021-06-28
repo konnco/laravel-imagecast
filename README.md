@@ -5,7 +5,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/konnco/laravel-imagecast/Check%20&%20fix%20styling?label=code%20style)](https://github.com/konnco/laravel-imagecast/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/konnco/laravel-imagecast.svg?style=flat-square)](https://packagist.org/packages/konnco/laravel-imagecast)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+This package is designed to simplify our code for managing the laravel image.
 
 ## Alpha Version
 Attention! This package is still under development, we still looking the best pattern we can apply, and in the way, the development may break your application, we would not recommended you using to use this application on production until this package is fully released.
