@@ -23,16 +23,18 @@ class Image
         $this->disk = $array['disk'];
     }
 
-    public function width($width = "") {
-
+    public function width($width = "")
+    {
     }
 
-    public function height($height = "") {
-
+    public function height($height = "")
+    {
     }
 
-    public function toUrl() {
+    public function toUrl()
+    {
         $filters = collect($this->filters)->sort();
+
         return config('imagecast.cache.identifier')."/".$filters->join(',')."/".$this->path;
     }
 
