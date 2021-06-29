@@ -37,6 +37,13 @@ return [
 
 Easy! just apply the `Image` into the image type attribute, example :
 
+import these file 
+```php
+use Konnco\ImageCast\Casts\Image;
+```
+
+and implement it like this
+
 ```php
 protected $casts = [
     'avatar' => Image::class,
