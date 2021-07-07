@@ -4,6 +4,7 @@ namespace Konnco\ImageCast\Casts;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\ImageManagerStatic as ImageIntervention;
 use Konnco\ImageCast\Image as ImageCastImage;
 
@@ -75,7 +76,11 @@ class Image implements CastsAttributes
      */
     public function set($model, $key, $value, $attributes)
     {
-        $image = $this->_prepareSaveData($value);
+        try {
+            $image = $this->_prepareSaveData($value);
+        } catch (NotReadableException $th) {
+            return $value;
+        }
 
         $this->storage->put($image['path'], $image['imageManager']->encode($image['extension'], $this->quality)->__toString());
 
