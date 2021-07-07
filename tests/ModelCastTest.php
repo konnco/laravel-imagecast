@@ -42,16 +42,5 @@ class ModelCastTest extends TestCase
         });
 
         Storage::disk('public')->assertExists($url);
-
-
-
-        // request()->url($user->avatar->temporaryResize(['w_200','h_100']));
-
-        //
-
-        // $response = Http::get();
-        // dd($response);
-
-        // dd();
     }
 }

@@ -14,6 +14,10 @@ class Image
 
     private $filters = [];
 
+    public function __​toString() {
+        return $this->url;
+    }
+
     public function __construct($array)
     {
         $array = json_decode($array, true);
