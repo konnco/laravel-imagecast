@@ -14,7 +14,8 @@ class Image
 
     private $filters = [];
 
-    public function __​toString() {
+    public function __​toString()
+    {
         return $this->url;
     }
 

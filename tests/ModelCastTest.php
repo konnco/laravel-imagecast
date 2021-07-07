@@ -3,7 +3,6 @@
 namespace Konnco\ImageCast\Tests;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Konnco\ImageCast\ImageCastExceptionHandler;
 use Konnco\ImageCast\Tests\src\Models\User;
