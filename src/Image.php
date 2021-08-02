@@ -21,11 +21,13 @@ class Image
 
     public function __construct($array)
     {
-        $array = json_decode($array, true);
+        if(!is_null($array)) {
+            $array = json_decode($array, true);
 
-        $this->url = config("filesystems.disks.{$array['disk']}.url")."/".$array['path'];
-        $this->path = $array['path'];
-        $this->disk = $array['disk'];
+                $this->url = config("filesystems.disks.{$array['disk']}.url")."/".$array['path'];
+                $this->path = $array['path'];
+                $this->disk = $array['disk'];   
+        }        
     }
 
     public function width($width = "")
