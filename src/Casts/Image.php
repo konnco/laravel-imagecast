@@ -314,13 +314,13 @@ class Image implements CastsAttributes
         $match = [];
         preg_match_all('#\{(.*?)\}#', $path, $match);
 
-        foreach($match[1] as $key => $string){
+        foreach ($match[1] as $key => $string) {
             $startWithDate = Str::of($string)->startsWith('date:');
-            if(!$startWithDate) {
+            if (! $startWithDate) {
                 continue;
             }
 
-            $dateFormat = explode(":",$string)[1];
+            $dateFormat = explode(":", $string)[1];
             $date = date($dateFormat);
             $path = str_replace($match[0][$key], $date, $path);
         }
