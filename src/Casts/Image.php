@@ -50,7 +50,7 @@ class Image implements CastsAttributes
     public function __construct($quality = 80, $path = null, $extension = null)
     {
         $this->quality = $quality;
-        $this->path = $path ?? config('imagecast.path');
+        $this->path = $this->_prepareSavePath($path) ?? config('imagecast.path');
         $this->extension = $extension;
         $this->disk = config('imagecast.disk');
         $this->storage = Storage::disk($this->disk);
@@ -307,5 +307,24 @@ class Image implements CastsAttributes
             'filename' => $filename,
             'path' => $path,
         ];
+    }
+
+    protected function _prepareSavePath($path)
+    {
+        $match = [];
+        preg_match_all('#\{(.*?)\}#', $path, $match);
+
+        foreach($match[1] as $key => $string){
+            $startWithDate = Str::of($string)->startsWith('date:');
+            if(!$startWithDate) {
+                continue;
+            }
+
+            $dateFormat = explode(":",$string)[1];
+            $date = date($dateFormat);
+            $path = str_replace($match[0][$key], $date, $path);
+        }
+
+        return $path;
     }
 }
