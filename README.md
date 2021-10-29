@@ -58,7 +58,13 @@ protected $casts = [
     'banner' => Image::class.":80,images/account/avatar,png",
 ];
 ```
-with parameters `:quality,savePath,extension`.
+with parameters `:quality,savePath,extension`. For the `savePath` variable you may want to insert random variable like date as the folder name, you can follow the example
+
+```php
+protected $casts = [
+    'avatar' => Image::class.":80,images/account/{date:Y-m-d}/avatar,jpg",
+];
+```
 
 After defining all of those configuration you can start uploading the image, example :
 
