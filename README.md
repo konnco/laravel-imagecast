@@ -107,6 +107,13 @@ We already added the helpers inside the `ImageCast` and it can be defined like s
 <img src="{{$user->avatar->width(100)->height(100)->toUrl()}}" alt="Image"/>
 ```
 
+### Base64
+You can also convert your image to base64 image with this method
+
+```php
+    return $user->avatar->toBase64();
+```
+
 ## Idea
 We really appreciate your idea and contribution into this package :)
 

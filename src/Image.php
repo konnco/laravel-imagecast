@@ -46,6 +46,17 @@ class Image
     }
 
     /**
+     * Convert image into base64
+     */
+    public function toBase64()
+    {
+        $rawImage = Storage::disk($this->disk)->get($this->path);
+        $image = ImageIntervention::make($rawImage);
+
+        return (string) $image->encode('data-url');
+    }
+
+    /**
      * This function will helping to serve the resized image
      * from requested url
      */
@@ -80,7 +91,7 @@ class Image
             $filters = $filters->sort();
 
             $savePath = config('imagecast.cache.identifier')."/".implode(",", $filters->toArray())."/".$this->path;
-            Storage::disk('public')->put(config('imagecast.cache.identifier')."/".implode(",", $filters->toArray())."/".$this->path, $image->__toString());
+            Storage::disk('public')->put($savePath, $image->__toString());
         }
     }
 }

@@ -25,6 +25,20 @@ class ModelCastTest extends TestCase
     }
 
     /** @test */
+    public function model_can_return_base64_files()
+    {
+        Storage::fake(config('imagecast.disk'));
+
+        $user = new User;
+        $user->avatar = UploadedFile::fake()->image('photo1.jpg');
+        $user->save();
+
+        $user->refresh();
+
+        $this->assertNotNull($user->avatar->toBase64());
+    }
+
+    /** @test */
     public function check_imagecast_exceptional_handler()
     {
         Storage::fake(config('imagecast.disk'));
