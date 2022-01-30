@@ -41,13 +41,15 @@ class Image
     public function toUrl()
     {
         $filters = collect($this->filters)->sort();
+
         return config('imagecast.cache.identifier')."/".$filters->join(',')."/".$this->path;
     }
 
     /**
      * Convert image into base64
      */
-    public function toBase64(){
+    public function toBase64()
+    {
         $rawImage = Storage::disk($this->disk)->get($this->path);
         $image = ImageIntervention::make($rawImage);
 
