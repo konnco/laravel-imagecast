@@ -41,8 +41,17 @@ class Image
     public function toUrl()
     {
         $filters = collect($this->filters)->sort();
-
         return config('imagecast.cache.identifier')."/".$filters->join(',')."/".$this->path;
+    }
+
+    /**
+     * Convert image into base64
+     */
+    public function toBase64(){
+        $rawImage = Storage::disk($this->disk)->get($this->path);
+        $image = ImageIntervention::make($rawImage);
+
+        return (string) $image->encode('data-url');
     }
 
     /**
@@ -80,7 +89,7 @@ class Image
             $filters = $filters->sort();
 
             $savePath = config('imagecast.cache.identifier')."/".implode(",", $filters->toArray())."/".$this->path;
-            Storage::disk('public')->put(config('imagecast.cache.identifier')."/".implode(",", $filters->toArray())."/".$this->path, $image->__toString());
+            Storage::disk('public')->put($savePath, $image->__toString());
         }
     }
 }
