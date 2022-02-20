@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\ImageManagerStatic as ImageIntervention;
 use Konnco\ImageCast\Image as ImageCastImage;
+use kornrunner\Blurhash\Blurhash;
 
 class Image implements CastsAttributes
 {
@@ -42,6 +43,11 @@ class Image implements CastsAttributes
     protected $storage;
 
     /**
+     * Blurhash Support
+     */
+    protected $blurhash = false;
+
+    /**
      * Create a new cast class instance.
      *
      * @param  string|null  $algorithm
@@ -54,6 +60,7 @@ class Image implements CastsAttributes
         $this->extension = $extension;
         $this->disk = config('imagecast.disk');
         $this->storage = Storage::disk($this->disk);
+        $this->blurhash = config('imagecast.blurhash', false);
     }
 
     /**
@@ -82,7 +89,8 @@ class Image implements CastsAttributes
             return $value;
         }
 
-        $this->storage->put($image['path'], $image['imageManager']->encode($image['extension'], $this->quality)->__toString());
+        $imageString = $image['imageManager']->encode($image['extension'], $this->quality)->__toString();
+        $this->storage->put($image['path'], $imageString);
 
         // Add identifier inside folders
         $this->storage->put($image['path'].".fingerprint", json_encode([
@@ -90,14 +98,43 @@ class Image implements CastsAttributes
             "field" => $key,
         ]));
 
-        $jsonResults = json_encode([
+        $jsonResults = [
             "path" => $image['path'],
             "disk" => $this->disk,
-        ]);
+        ];
+
+        if ($this->blurhash) {
+            $jsonResults['blurhash'] = $this->__convertBlurHash($imageString);
+        }
 
         return [
-            $key => $jsonResults,
+            $key => json_encode($jsonResults),
         ];
+    }
+
+    protected function __convertBlurHash($image)
+    {
+        $image = imagecreatefromstring($image);
+        $width = imagesx($image);
+        $height = imagesy($image);
+
+        $pixels = [];
+        for ($y = 0; $y < $height; ++$y) {
+            $row = [];
+            for ($x = 0; $x < $width; ++$x) {
+                $index = imagecolorat($image, $x, $y);
+                $colors = imagecolorsforindex($image, $index);
+
+                $row[] = [$colors['red'], $colors['green'], $colors['blue']];
+            }
+            $pixels[] = $row;
+        }
+
+        $components_x = 4;
+        $components_y = 3;
+        $blurhash = Blurhash::encode($pixels, $components_x, $components_y);
+
+        return $blurhash;
     }
 
     protected function _mime2ext($mime)
