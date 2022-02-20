@@ -62,7 +62,7 @@ with parameters `:quality,savePath,extension`. For the `savePath` variable you m
 
 ```php
 protected $casts = [
-    'avatar' => Image::class.":80,images/account/{date:Y-m-d}/avatar,jpg",
+    'avatar' => Image::class.":80,images/account/avatar/{date:Y-m-d},jpg",
 ];
 ```
 
