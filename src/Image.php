@@ -3,7 +3,6 @@
 namespace Konnco\ImageCast;
 
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as ImageIntervention;
 
 class Image
