@@ -103,7 +103,7 @@ class Image implements CastsAttributes
             "disk" => $this->disk,
         ];
 
-        if($this->blurhash) {
+        if ($this->blurhash) {
             $jsonResults['blurhash'] = $this->__convertBlurHash($imageString);
         }
 
@@ -112,7 +112,8 @@ class Image implements CastsAttributes
         ];
     }
 
-    protected function __convertBlurHash($image){
+    protected function __convertBlurHash($image)
+    {
         $image = imagecreatefromstring($image);
         $width = imagesx($image);
         $height = imagesy($image);
@@ -132,6 +133,7 @@ class Image implements CastsAttributes
         $components_x = 4;
         $components_y = 3;
         $blurhash = Blurhash::encode($pixels, $components_x, $components_y);
+
         return $blurhash;
     }
 
