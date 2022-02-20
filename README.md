@@ -12,6 +12,12 @@ Attention! This package is still under development, we still looking the best pa
 
 ## Installation
 
+### Laravel Version
+| Tags | Laravel Version |
+| ---- | --------------- |
+| 0.0.7 | Laravel 8      |
+| 0.1.0 | Laravel 9      |
+
 You can install the package via composer:
 
 ```bash
