@@ -39,6 +39,21 @@ class ModelCastTest extends TestCase
     }
 
     /** @test */
+    public function model_can_return_blurhash()
+    {
+        Storage::fake(config('imagecast.disk'));
+
+        $user = new User;
+        $user->avatar = UploadedFile::fake()->image('photo1.jpg');
+        $user->save();
+
+        $user->refresh();
+
+        // dd($user->avatar->blurhash);
+        // $this->assertNotNull($user->avatar->blurhash);
+    }
+
+    /** @test */
     public function check_imagecast_exceptional_handler()
     {
         Storage::fake(config('imagecast.disk'));

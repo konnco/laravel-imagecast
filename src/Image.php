@@ -11,6 +11,7 @@ class Image
     public $url;
     public $path;
     public $disk;
+    public $blurhash;
 
     private $filters = [];
 
@@ -27,6 +28,7 @@ class Image
             $this->url = config("filesystems.disks.{$array['disk']}.url")."/".$array['path'];
             $this->path = $array['path'];
             $this->disk = $array['disk'];
+            $this->disk = @$array['blurhash'] ?? "";
         }
     }
 

@@ -33,7 +33,7 @@ return [
     | you can see how it used in https://github.com/woltapp/blurhash
     |
     */
-    'blurhash' => env('IMAGECAST_BLURHASH', false),
+    'blurhash' => env('IMAGECAST_BLURHASH', true),
 
     /*
     |--------------------------------------------------------------------------
