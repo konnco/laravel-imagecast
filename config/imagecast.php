@@ -44,6 +44,8 @@ return [
     |
     */
     'cache' => [
+        'disk' => env('IMAGECAST_CACHE_DISK', 'public'),
+
         /**
          * If the url containes this identifier mean the image should be resized
          */
