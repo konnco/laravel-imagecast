@@ -12,8 +12,6 @@ class Image
     public $disk;
     public $blurhash;
 
-    private $filters = [];
-
     public function __​toString()
     {
         return $this->url;
@@ -21,7 +19,7 @@ class Image
 
     public function __construct($array)
     {
-        if (! is_null($array)) {
+        if (! is_null($array) && ! is_array($array)) {
             $array = json_decode($array, true);
 
             $this->url = config("filesystems.disks.{$array['disk']}.url")."/".$array['path'];
